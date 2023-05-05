@@ -1,0 +1,42 @@
+.loadingWrap {
+  @apply w-full h-full flexCenter fixed left-0 top-0 z-9999 bg-[rgba(255,255,255,0.5)];
+
+  .loading {
+    @apply w-60px h-20px flex justify-between items-center;
+
+    span {
+      @apply w-6px h-full inline-block rounded-4;
+      background: linear-gradient(to right, #e6c4ac, #d9a280);
+      animation: loading 0.5s ease infinite;
+
+      &:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      &:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+
+      &:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+    }
+  }
+}
+
+@keyframes loading {
+  0%,
+  100% {
+    @apply h-20px;
+    background: linear-gradient(to right, #e6c4ac, #d9a280);
+  }
+
+  50% {
+    @apply h-40px my-[-10px];
+    background: linear-gradient(to right, #d9a280, #cb8158);
+  }
+}

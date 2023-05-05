@@ -1,0 +1,15 @@
+.activeL1StatusLineTimeSvg {
+  @apply fill-[#1E78E5] mb-[-1px];
+
+  circle {
+    @apply stroke-[#1E78E5];
+  }
+
+  path {
+    @apply stroke-white;
+  }
+}
+
+.inActiveL1StatusLineSvgWrap svg rect {
+  @apply fill-[#C0C6CC];
+}

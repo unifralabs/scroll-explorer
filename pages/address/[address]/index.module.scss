@@ -1,0 +1,34 @@
+.titleIcon {
+  @apply w-28px h-28px rounded-full flexCenter text-12 text-secondText bg-[#77838f1a] transition cursor-pointer;
+
+  &:hover {
+    @apply bg-[#a1a1a1] text-white;
+  }
+}
+
+.tokenBalanceInput {
+  @apply cursor-pointer;
+
+  input {
+    @apply cursor-pointer;
+  }
+}
+
+.tokenBalanceWrap {
+  @apply rounded-4 px-12 py-4px transition-all duration-200 hover:bg-main hover:text-white cursor-pointer border-b-1px border-solid border-border hover:border-main flex justify-between items-center text-12 mb-4px last:border-none last:mb-0;
+
+  div {
+    @apply transition-all duration-200 !important;
+  }
+
+  a {
+    @apply transition-none !important;
+  }
+
+  &:hover {
+    div,
+    a {
+      @apply text-white;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.arrowBtn {
+  @apply w-22px h-22px flexCenter bg-lightMain cursor-pointer transition-all hover:bg-main rounded-4;
+
+  &.disabled {
+    @apply opacity-70 cursor-not-allowed;
+
+    &:hover {
+      @apply bg-lightMain;
+
+      > span {
+        @apply text-main;
+      }
+    }
+  }
+
+  &:hover {
+    @apply bg-main;
+
+    > span {
+      @apply text-white;
+    }
+  }
+
+  > span {
+    @apply text-12 text-main;
+  }
+}

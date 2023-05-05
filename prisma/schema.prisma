@@ -1,0 +1,280 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model account {
+  address    String? @db.VarChar(80)
+  tag        String? @db.VarChar(80)
+  txnCount   BigInt?
+  id         BigInt  @id
+  updateTime BigInt  @default(0)
+  status     Int     @default(0) @db.SmallInt
+}
+
+model accountBalance {
+  address  String?  @db.VarChar(80)
+  contract String?  @db.VarChar(80)
+  value    Decimal? @db.Decimal(80, 0)
+  tokenId  String?  @db.VarChar(80)
+  id       Int      @id @default(autoincrement())
+
+  @@unique([address, contract, tokenId], map: "account_address_contract")
+  @@index([address], map: "idx_accountBalance_address")
+  @@index([contract], map: "idx_accountBalance_contract")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model balanceChange {
+  id           Int     @id @default(autoincrement())
+  address      String? @db.VarChar(80)
+  contract     String? @db.VarChar(80)
+  contractType BigInt?
+  tokenId      String? @db.VarChar(80)
+}
+
+model batch {
+  idx              Decimal   @unique(map: "batch__index") @db.Decimal(80, 0)
+  batchHash        String?   @db.VarChar(80)
+  commitHash       String?   @db.VarChar(80)
+  commitTime       DateTime? @db.Timestamp(6)
+  proofHash        String?   @db.VarChar(80)
+  proofTime        DateTime? @db.Timestamp(6)
+  blockNumbers     BigInt[]
+  blockCount       Int?
+  transactionCount Int?
+  status           Int?      @db.SmallInt
+
+  @@index([blockNumbers], map: "batch__blockNumbers")
+  @@index([status], map: "batch__status")
+  @@index([blockNumbers], map: "idx_blocknumbers_gin", type: Gin)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model block {
+  blockHash                 String   @unique(map: "block_blockhash") @db.VarChar(80)
+  blockNumber               BigInt?
+  transactionCount          BigInt?
+  internalTransactionCount  BigInt?
+  validator                 String?  @db.VarChar(80)
+  blockReward               BigInt?
+  difficult                 BigInt?
+  totalDifficult            BigInt?
+  blockSize                 BigInt?
+  gasUsed                   BigInt?
+  gasLimit                  BigInt?
+  extraData                 String?
+  parentHash                String?  @db.VarChar(80)
+  sha3Uncle                 String?  @db.VarChar(80)
+  nonce                     String?  @db.VarChar(80)
+  Uncles                    String?
+  blockTime                 BigInt?
+  l1Status                  Int?     @default(0) @db.SmallInt
+  l1CommitBlockHash         String?  @db.VarChar(80)
+  l1CommitBlockNumber       BigInt?
+  l1CommitTransactionHash   String?  @db.VarChar(80)
+  l1FinalizeBlockHash       String?  @db.VarChar(80)
+  l1FinalizeBlockNumber     BigInt?
+  l1FinalizeTransactionHash String?  @db.VarChar(80)
+  commitGas                 Decimal? @db.Decimal(100, 0)
+  finalizeGas               Decimal? @db.Decimal(100, 0)
+
+  @@index([blockHash], map: "idx_block_blockHash")
+  @@index([blockNumber], map: "idx_block_blockNumber")
+}
+
+model config {
+  key   String? @unique(map: "key_unique") @db.VarChar(255)
+  value String?
+  id    Int     @id @default(autoincrement())
+}
+
+model contract {
+  contractAddress     String  @unique(map: "contract_unique") @db.VarChar(80)
+  createTxHash        String? @db.VarChar(80)
+  symbol              String? @db.VarChar(80)
+  contractType        BigInt?
+  creator             String? @db.VarChar(80)
+  decimals            BigInt  @default(0)
+  totalSupply         Decimal @default(0) @db.Decimal(80, 0)
+  desc                String?
+  byteCode            String?
+  contractABI         String?
+  name                String? @db.VarChar(80)
+  standardJson        String?
+  compiler            String? @db.VarChar(200)
+  status              BigInt?
+  license             String? @db.VarChar(255)
+  contractName        String? @db.VarChar(255)
+  optimizationEnabled String? @db.VarChar(255)
+  evmVersion          String? @db.VarChar(255)
+
+  @@index([contractAddress], map: "idx_contract_contractAddress")
+}
+
+model contractVerifyJob {
+  uid             String  @id() @db.VarChar(64)
+  contractAddress String? @db.VarChar(200)
+  compiler        String? @db.VarChar(200)
+  standardJson    String?
+  status          Int?    @db.SmallInt
+}
+
+model crossTransaction {
+  type                  Int?    @db.SmallInt
+  l1TransactionHash     String? @db.VarChar(100)
+  l2TransactionHash     String? @db.VarChar(100)
+  l1Token               String? @db.VarChar(100)
+  l2Token               String? @db.VarChar(100)
+  from                  String? @db.VarChar(100)
+  to                    String? @db.VarChar(100)
+  data                  String?
+  id                    BigInt  @id(map: "cross_transaction_pkey") @default(autoincrement())
+  l1TransactionLogIndex BigInt?
+  l2TransactionLogIndex BigInt?
+  amount                String? @db.VarChar(255)
+
+  @@unique([l1TransactionHash, l2TransactionHash, l1TransactionLogIndex, l2TransactionLogIndex], map: "crossTransaction_l1_l2_unique")
+}
+
+model internalTransaction {
+  blockHash             String?  @db.VarChar(80)
+  blockNumber           BigInt?
+  parentTransactionHash String?  @db.VarChar(80)
+  from                  String?  @db.VarChar(80)
+  to                    String?  @db.VarChar(80)
+  value                 Decimal? @db.Decimal(80, 0)
+  typeTraceAddress      String?  @db.VarChar(80)
+  gasLimit              BigInt?
+  op                    String?  @db.VarChar(40)
+  id                    Int      @id @default(autoincrement())
+
+  @@index([blockHash], map: "idx_internalTransaction_blockHash")
+  @@index([blockNumber], map: "idx_internalTransaction_blockNumber")
+  @@index([from], map: "idx_internalTransaction_from")
+  @@index([to], map: "idx_internalTransaction_to")
+}
+
+model l1_block_syc_progress {
+  l1BlockNumber BigInt @unique
+
+  @@index([l1BlockNumber], map: "idx_l1_block_syc_progress")
+}
+
+model tokenTransfer {
+  transactionHash String?  @db.VarChar(80)
+  logIndex        BigInt?
+  contract        String?  @db.VarChar(80)
+  tokenType       BigInt?
+  value           Decimal? @db.Decimal(80, 0)
+  from            String?  @db.VarChar(80)
+  to              String?  @db.VarChar(80)
+  methodId        String?  @db.VarChar(80)
+  blockHash       String?  @db.VarChar(80)
+  blockTime       BigInt?
+  tokenId         String?  @db.VarChar(80)
+  id              Int      @id @default(autoincrement())
+
+  @@unique([transactionHash, logIndex, tokenId], map: "idx_tokenTransfer_transactionHash_logIndex_tokenId")
+  @@index([blockHash], map: "idx_tokenTransafer_blockHash")
+  @@index([blockTime], map: "idx_tokenTransfer_blockTime")
+  @@index([from], map: "idx_tokenTransfer_from")
+  @@index([tokenType, from, to, contract, blockTime], map: "idx_tokenTransfer_optimized")
+  @@index([to], map: "idx_tokenTransfer_to")
+  @@index([contract], map: "idx_contract")
+  @@index([transactionHash, logIndex], map: "idx_tokenTransfer_transactionHash_logIndex")
+  @@index([contract, tokenType], map: "idx_tokentransfer_contract_tokentype")
+}
+
+model transaction {
+  hash             String?  @db.VarChar(80)
+  status           BigInt?
+  errorInfo        String?
+  blockNumber      BigInt?
+  blockTime        BigInt?
+  from             String?  @db.VarChar(80)
+  to               String?  @db.VarChar(80)
+  value            Decimal? @db.Decimal(80, 0)
+  fee              Decimal? @db.Decimal(256, 0)
+  gasLimit         BigInt?
+  gasUsed          BigInt?
+  gasPrice         BigInt?
+  transactionType  BigInt?
+  maxPriority      BigInt?
+  maxFee           BigInt?
+  nonce            BigInt?
+  inputData        String?
+  blockHash        String?  @db.VarChar(80)
+  transactionIndex BigInt?
+  l1Status         Int?     @default(0) @db.SmallInt
+  crossType        Int?     @default(0) @db.SmallInt
+  handled          Boolean? @default(false)
+  id               Int      @id @default(autoincrement())
+
+  @@unique([hash, blockHash], map: "transaction_unique")
+  @@index([blockHash], map: "idx_transaction_blockHash")
+  @@index([blockNumber], map: "idx_transaction_blockNumber")
+  @@index([blockNumber(sort: Desc), transactionIndex], map: "idx_transaction_blocknumber_desc_transactionindex_asc")
+  @@index([blockTime], map: "idx_transaction_blocktime_index")
+  @@index([from], map: "idx_transaction_from")
+  @@index([from, to], map: "idx_transaction_from_to")
+  @@index([handled], map: "idx_transaction_handled")
+  @@index([hash], map: "idx_transaction_hash")
+  @@index([to], map: "idx_transaction_to")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model transactionLogs {
+  transactionHash  String?  @db.VarChar(80)
+  logIndex         BigInt?
+  address          String?  @db.VarChar(80)
+  blockHash        String?  @db.VarChar(80)
+  blockNumber      BigInt?
+  data             String?
+  removed          Boolean?
+  topics           String?
+  transactionIndex BigInt?
+  id               Int      @id @default(autoincrement())
+
+  @@unique([transactionHash, logIndex], map: "transaction_log_unique")
+  @@index([blockHash], map: "idx_transactionLogs_blockHash")
+}
+
+model tokenListMaintain {
+  description      String
+  contract_address String @db.VarChar(80)
+  price_method     String
+  list_priority    Int
+  tag              String
+  logo_path        String
+  symbol           String @db.VarChar(40)
+  id               Int    @id(map: "token_list_maintain_pkey") @default(autoincrement())
+
+  @@index([contract_address], map: "idx_tokenlistmaintain_contract_address")
+  @@index([list_priority], map: "idx_tokenlistmaintain_list_priority")
+  @@index([list_priority], map: "idx_tokenlistmaintain_list_priority_asc")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model functionInfo {
+  methodId          String? @unique @db.VarChar(255)
+  functionName      String?
+  functionSignature String? @db.VarChar(255)
+  functionAbi       String?
+  updateTime        BigInt?
+  methodName        String? @db.VarChar(255)
+  id                Int     @id @default(autoincrement())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model tokenBalanceChangeHandled {
+  txhash   String? @db.VarChar(80)
+  logIndex BigInt?
+
+  @@index([txhash, logIndex], map: "tmpTokenTransferHandled_txhash_logIndex_index")
+  @@ignore
+}

@@ -1,0 +1,20 @@
+.searchWrap {
+  @apply w-full px-45px py-40px flex items-center relative text-white rounded-4;
+  background: linear-gradient(92.34deg, #483740 2.3%, #3f3238 100%);
+}
+
+.listWrap {
+  @apply w-full h-full;
+
+  .cell {
+    @apply w-full p-16px flex justify-between items-center relative last:after:content-[none];
+
+    &:after {
+      @apply content-[''] w-[calc(100%-24px)] h-1px bg-border absolute left-12px bottom-0;
+    }
+
+    .label {
+      @apply w-36px h-36px flex-shrink-0 font-500 flexCenter rounded-full bg-lightMain text-darkMain mr-12 relative;
+    }
+  }
+}

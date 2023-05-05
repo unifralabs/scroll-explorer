@@ -1,0 +1,12 @@
+.footerWrap {
+  background-image: url(/imgs/footer_bg.png);
+  @apply w-full bg-[#21325b] py-30px mt-80px;
+
+  .iconWrap {
+    @apply flexCenter;
+
+    > a {
+      @apply mr-10px last:mr-0 text-20px text-white transition-opacity hover:opacity-70;
+    }
+  }
+}

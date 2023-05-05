@@ -1,0 +1,7 @@
+.dotWrap {
+  @apply w-fit flex items-center;
+
+  > div:last-child {
+    @apply w-13px text-left;
+  }
+}

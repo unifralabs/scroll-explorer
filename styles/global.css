@@ -1,0 +1,273 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v5.0.1 | 20191019
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+menu,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+  display: none;
+}
+
+body {
+  line-height: 1;
+}
+
+menu,
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  color: #cb8158;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #d9a280;
+}
+
+b,
+strong {
+  font-weight: bold !important;
+}
+
+html,
+body,
+#root {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol, Noto Color Emoji;
+  font-feature-settings: 'tnum', 'tnum';
+  @apply w-full bg-page;
+}
+
+textarea {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace !important;
+}
+
+/* unifrascan-tooltip */
+.unifrascan-tooltip {
+  @apply max-w-600px !important;
+}
+
+.unifrascan-tooltip .unifrascan-tooltip-inner {
+  @apply text-12;
+}
+
+/* unifrascan-pagination */
+.unifrascan-spin-container > .unifrascan-pagination:first-child {
+  @apply mt-0;
+}
+
+.unifrascan-spin-container > .unifrascan-pagination:last-child {
+  @apply mb-0;
+}
+
+.unifrascan-pagination {
+  @apply flex justify-end items-center;
+}
+
+.unifrascan-pagination .unifrascan-pagination-total-text {
+  @apply flex-1 text-[#999];
+}
+
+/* unifrascan-table */
+.unifrascan-table-thead > tr > th {
+  @apply font-bold text-secondText !important;
+}
+
+/* unifrascan-date */
+.small-date-range-picker .unifrascan-picker-input > input {
+  @apply text-12;
+}
+
+/* unifrascan-tabs */
+.unifrascan-tabs-tab {
+  @apply text-[#0009] text-14 px-20px py-14px !important;
+}
+
+.unifrascan-tabs-tab.unifrascan-tabs-tab-active .unifrascan-tabs-tab-btn {
+  @apply font-500;
+}
+
+.unifrascan-tabs-tab + .unifrascan-tabs-tab {
+  @apply ml-40px !important;
+}
+
+/* unifrascan-card */
+.unifrascan-card {
+  box-shadow: 0 0 20px rgba(215, 222, 227, 0.21);
+}
+
+.unifrascan-card-head {
+  @apply font-500 !important;
+}
+
+.unifrascan-card-bordered {
+  @apply border-none !important;
+}
+
+/* unifrascan-collapse */
+.unifrascan-collapse {
+  @apply border-none !important;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.unifrascan-collapse-header {
+  @apply bg-[#fafafa];
+}
+
+.modal-with-no-footer-border .unifrascan-modal-footer {
+  @apply border-none py-16px;
+}
+
+/* header network select */
+.header-select-wrap {
+  @apply w-180px h-26px font-400 leading-26px rounded-22px;
+  background: linear-gradient(93.7deg, #ac621f 6.27%, #9e4817 94.49%);
+
+  .unifrascan-select-selection-item {
+    @apply text-white h-26px leading-24px px-6px !important;
+  }
+
+  svg {
+    @apply transform rotate-180;
+
+    path {
+      @apply fill-white;
+    }
+  }
+}
+
+.header-select-popup-wrap {
+  @apply border-1px border-solid border-border p-6px !important;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05), 0 4px 5px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+
+  .unifrascan-select-item-option-content {
+    @apply text-main;
+  }
+}

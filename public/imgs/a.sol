@@ -1,0 +1,1 @@
+contract A { function g() public { L.f(); } } library L { function f() public returns (uint) { return 3; } }

@@ -1,0 +1,94 @@
+%mTransition {
+  @apply transition-all duration-300;
+}
+
+.menuWrap {
+  @apply w-248px h-screen bg-[#32242B] text-[#999195] text-14px z-999 transition-all duration-200 relative pt-100px pb-60px overflow-hidden flex-initial flex-shrink-0;
+
+  .menu {
+    @apply px-24;
+
+    %activeSvg {
+      @apply bg-[#473a40] text-white;
+
+      svg.tokenSvg path,
+      svg.blockChainSvg path:first-child {
+        @apply fill-white;
+      }
+
+      svg:not(.blockChainSvg):not(.tokenSvg) *,
+      svg.tokenSvg circle {
+        @apply stroke-white !important;
+      }
+    }
+
+    .menuItem {
+      @extend %mTransition;
+      @apply w-full h-40px px-14px flex items-center ellipsis rounded-6px cursor-pointer;
+
+      &:hover {
+        @extend %activeSvg;
+      }
+
+      .arrow,
+      svg * {
+        @extend %mTransition;
+      }
+
+      svg:not(.blockChainSvg) {
+        *:not(path) {
+          @apply stroke-[#999195];
+        }
+      }
+
+      .arrow {
+        @apply ml-10px text-10px;
+
+        &.closed {
+          @apply transform rotate-180;
+        }
+      }
+    }
+
+    .activeItem {
+      @extend %activeSvg;
+    }
+  }
+}
+
+.collapsedMenuWrap {
+  @apply w-50px;
+
+  .menu {
+    @apply px-5px;
+
+    .menuItem {
+      @apply px-10px;
+    }
+  }
+}
+
+.collapsedIconWrap {
+  @apply w-full h-56px absolute bottom-0 left-0 flexCenter border-t-1px border-solid border-t-[#392D33];
+
+  .toggleIcon {
+    @extend %mTransition;
+    @apply cursor-pointer;
+
+    path {
+      @extend %mTransition;
+    }
+
+    &:hover path {
+      @apply fill-white;
+    }
+
+    &.collapsed {
+      @apply transform rotate-180;
+    }
+  }
+
+  .menuCollapsed {
+    @apply transform rotate-180;
+  }
+}
